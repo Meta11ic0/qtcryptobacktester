@@ -13,7 +13,6 @@ int main(int argc, char *argv[]) {
   } else {
     qWarning() << "Failed to open :/styles/style.qss" << styleFile.error();
   }
-
   MainWindow w;
   w.show();
   return a.exec();

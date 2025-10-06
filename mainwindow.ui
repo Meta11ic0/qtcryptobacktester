@@ -653,7 +653,14 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>50</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

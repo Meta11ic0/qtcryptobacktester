@@ -44,10 +44,6 @@ QString DownloadConfigDialog::getTimeframe() const {
   return ui->timeframeComboBox->currentText();
 }
 
-int DownloadConfigDialog::getLimit() const {
-  return ui->limitSpinBox->value();
-}
-
 QDateTime DownloadConfigDialog::getStartTime() const {
   return ui->startDateTimeEdit->dateTime();
 }

@@ -19,12 +19,29 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+# 检查目录是否存在再复制
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/scripts)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/scripts
+         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/strategies)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/strategies
+         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/data)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data
+         DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(qtbacktester
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         res.qrc
         downloadconfigdialog.h downloadconfigdialog.cpp downloadconfigdialog.ui
+        scripts/downloaddata.py
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET qtbacktester APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -66,6 +83,18 @@ install(TARGETS qtbacktester
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/scripts/
+        DESTINATION ${CMAKE_INSTALL_BINDIR}/scripts
+        FILES_MATCHING PATTERN "*.py")
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/strategies/
+        DESTINATION ${CMAKE_INSTALL_BINDIR}/strategies
+        FILES_MATCHING PATTERN "*.py")
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/
+        DESTINATION ${CMAKE_INSTALL_BINDIR}/data
+        FILES_MATCHING PATTERN "*.csv")
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(qtbacktester)

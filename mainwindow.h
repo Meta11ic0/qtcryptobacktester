@@ -96,8 +96,22 @@ private:
   void showError(const QString& message);    // 显示错误信息
   void showProgress(const QString& message); // 显示信息
   void clearProgress();
-  //检查python环境
-  bool checkPythonEnvironment();
+  bool checkPythonEnvironment(); //检查python环境
+  QString getScriptPath(const QString& scriptName);
+  QString getDataFilePath(const QString& dataFileName);
+  int calculateEstimatedBars(const QDateTime& start, const QDateTime& end, const QString& timeframe);
+  bool downloadDataChunk(const QString& exchange,
+                         const QString& symbol,
+                         const QString& timeframe,
+                         const QDateTime& startTime,
+                         int estimatedBars,
+                         const QString& outputPath);
+  void executeSingleDownload(const QString& exchange,
+                             const QString& symbol,
+                             const QString& timeframe,
+                             const QDateTime& startTime,
+                             int estimatedBars,
+                             const QString& outputPath);
 
 private:
   Ui::MainWindow* ui;
@@ -108,8 +122,8 @@ private:
   QString currentDataFile;        // 当前选中的数据文件路径
 
   // 策略管理变量 - 存储策略文件相关信息
-  //QStringList strategyFiles;   // 所有策略文件的路径列表
-  //QString currentStrategyFile; // 当前选中的策略文件路径
+  QStringList strategyFiles;   // 所有策略文件的路径列表
+  QString currentStrategyFile; // 当前选中的策略文件路径
 
   // 图表变量 - 图表组件指针
   QChart* priceChart;               // K线图表对象

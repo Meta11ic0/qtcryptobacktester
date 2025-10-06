@@ -18,7 +18,6 @@ public:
   QString getExchange() const;
   QString getSymbol() const;
   QString getTimeframe() const;
-  int getLimit() const;
   QDateTime getStartTime() const;
   QDateTime getEndTime() const;
   QString getOutputPath() const;
