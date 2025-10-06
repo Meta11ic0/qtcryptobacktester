@@ -1,0 +1,290 @@
+/* iOS风格样式表 - CryptoBacktester */
+
+/* 全局设置 - iOS风格浅色主题 */
+QMainWindow {
+  background-color: #f2f2f7;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+}
+
+/* 分组框样式 - iOS卡片风格 */
+QGroupBox {
+  background-color: #ffffff;
+  border: 1px solid #c6c6c8;
+  border-radius: 14px;
+  margin-top: 10px;
+  padding-top: 15px;
+  color: #000000;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+QGroupBox::title {
+  subcontrol-origin: margin;
+  subcontrol-position: top center;
+  padding: 0 16px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* 标签样式 - iOS风格 */
+QLabel {
+  background-color: transparent;
+  color: #3c3c43;
+  padding: 8px 4px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 控制面板标签特殊样式 */
+QLabel[name$="Label"]:not([name*="ValueLabel"]) {
+  background-color: #f2f2f7;
+  color: #3c3c43;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+/* 结果区域标签特殊样式 */
+QGroupBox[name="resultsGroupBox"] QLabel {
+  background-color: #f8f8fa;
+  color: #3c3c43;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 10px 12px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* 结果值标签特殊样式 */
+QLabel[name$="ValueLabel"] {
+  background-color: #ffffff;
+  color: #007aff;
+  font-weight: 600;
+  border: 1px solid #e5e5ea;
+  font-size: 15px;
+}
+
+/* 按钮样式 - iOS风格 */
+QPushButton {
+  background-color: #007aff;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 16px;
+  min-height: 32px;
+}
+
+QPushButton:hover {
+  background-color: #0056cc;
+  transform: scale(1.02);
+}
+
+QPushButton:pressed {
+  background-color: #004299;
+  transform: scale(0.98);
+}
+
+QPushButton:focus {
+  outline: none;
+}
+
+/* 次要按钮样式 - iOS灰色按钮 */
+QPushButton[name="selectFileButton"],
+QPushButton[name="downloadDataButton"],
+QPushButton[name="editStrategyButton"],
+QPushButton[name="newStrategyButton"] {
+  background-color: #e5e5ea;
+  color: #007aff;
+  border: 1px solid #c6c6c8;
+  font-weight: 500;
+}
+
+QPushButton[name="selectFileButton"]:hover,
+QPushButton[name="downloadDataButton"]:hover,
+QPushButton[name="editStrategyButton"]:hover,
+QPushButton[name="newStrategyButton"]:hover {
+  background-color: #d1d1d6;
+}
+
+/* 开始回测按钮特殊样式 - iOS绿色按钮 */
+QPushButton[name="startBacktestButton"] {
+  background-color: #34c759;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 17px;
+  border: none;
+}
+
+QPushButton[name="startBacktestButton"]:hover {
+  background-color: #30b453;
+}
+
+QPushButton[name="startBacktestButton"]:pressed {
+  background-color: #2a9d47;
+}
+
+/* 下拉框样式 - iOS风格 */
+QComboBox {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #c6c6c8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  min-height: 32px;
+  font-size: 16px;
+  selection-background-color: #007aff;
+}
+
+QComboBox::drop-down {
+  border: none;
+  width: 30px;
+  border-radius: 0 10px 10px 0;
+}
+
+QComboBox::down-arrow {
+  image: none;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #8e8e93;
+  width: 0px;
+  height: 0px;
+}
+
+QComboBox QAbstractItemView {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #c6c6c8;
+  border-radius: 10px;
+  selection-background-color: #007aff;
+  selection-color: #ffffff;
+  outline: none;
+  font-size: 16px;
+}
+
+/* 输入框样式 - iOS风格 */
+QLineEdit {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #c6c6c8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  min-height: 32px;
+  font-size: 16px;
+  selection-background-color: #007aff;
+}
+
+QLineEdit:focus {
+  border: 1px solid #007aff;
+  background-color: #f9f9f9;
+}
+
+/* 文本编辑框样式 */
+QTextEdit {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #c6c6c8;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 16px;
+  selection-background-color: #007aff;
+}
+
+/* 表格样式 */
+QTableView {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #c6c6c8;
+  border-radius: 10px;
+  gridline-color: #e5e5ea;
+  alternate-background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+QTableView::item {
+  padding: 10px;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+QTableView::item:selected {
+  background-color: #007aff;
+  color: #ffffff;
+}
+
+QHeaderView::section {
+  background-color: #f2f2f7;
+  color: #000000;
+  padding: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 布局间距 */
+QVBoxLayout {
+  spacing: 6px;
+  margin: 6px;
+}
+
+QHBoxLayout {
+  spacing: 6px;
+  margin: 6px;
+}
+
+QGridLayout {
+  spacing: 6px;
+  margin: 6px;
+}
+
+/* 分隔符样式 */
+QFrame[frameShape="4"] { /* HLine */
+  color: #e5e5ea;
+}
+
+QFrame[frameShape="5"] { /* VLine */
+  color: #e5e5ea;
+}
+
+/* 弹性空间样式 */
+QSpacerItem {
+  background-color: transparent;
+}
+
+/* 特殊效果 - 轻微阴影 */
+QGroupBox {
+  /* Qt不支持box-shadow，使用边框模拟轻微阴影效果 */
+  border: 1px solid #c6c6c8;
+}
+
+/* 状态指示器样式 */
+QLabel[status="success"] {
+  color: #34c759;
+  font-weight: 600;
+}
+
+QLabel[status="warning"] {
+  color: #ff9500;
+  font-weight: 600;
+}
+
+QLabel[status="error"] {
+  color: #ff3b30;
+  font-weight: 600;
+}
+
+/* 进度条样式（如果需要） */
+QProgressBar {
+  border: 1px solid #c6c6c8;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #f2f2f7;
+}
+
+QProgressBar::chunk {
+  background-color: #007aff;
+  border-radius: 7px;
+}
