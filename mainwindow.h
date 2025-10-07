@@ -54,12 +54,12 @@ public:
 
 private slots:
   // 数据管理槽函数 - 对应UI中的按钮
-  //void onDataFileSelected(int index); // dataFileComboBox选择变化
-  void onDownloadDataClicked(); // downloadDataButton点击
+  void onDataFileSelected(int index); // dataFileComboBox选择变化
+  void onDownloadDataClicked();       // downloadDataButton点击
   //void onAddFileClicked();      // addFileButton点击
 
   // 策略管理槽函数 - 对应UI中的按钮
-  //void onStrategySelected(int index); // strategyComboBox选择变化
+  void onStrategySelected(int index); // strategyComboBox选择变化
   //void onCreateStrategyClicked();     // createStrategyButton点击
   //void onEditStrategyClicked();       // editStrategyButton点击
 
@@ -74,8 +74,9 @@ private:
   void initializeChart();       // 初始化K线图表
 
   // 数据管理函数 - 处理CSV数据和文件操作
-  bool loadCSVData(const QString& filePath); // 加载选定的CSV数据文件
-  QString getSelectedDataFile() const;       // 获取当前选中的数据文件路径
+  bool loadCSVData(const QString& filePath);           // 加载选定的CSV数据文件
+  QString getSelectedDataFile() const;                 // 获取当前选中的数据文件路径
+  void addDataFileToComboBox(const QString& filePath); // 添加数据文件到下拉框
 
   // 策略管理函数 - 处理Python策略文件
   QString getSelectedStrategy() const; // 获取当前选中的策略文件路径
@@ -98,7 +99,8 @@ private:
   void clearProgress();
   bool checkPythonEnvironment(); //检查python环境
   QString getScriptPath(const QString& scriptName);
-  QString getDataFilePath(const QString& dataFileName);
+  QString getDataDirectory();       // 获取数据目录
+  QString getStrategiesDirectory(); // 获取策略目录
   int calculateEstimatedBars(const QDateTime& start, const QDateTime& end, const QString& timeframe);
   bool downloadDataChunk(const QString& exchange,
                          const QString& symbol,
