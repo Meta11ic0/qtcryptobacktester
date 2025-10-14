@@ -1,19 +1,18 @@
-#ifndef DOWNLOADCONFIGDIALOG_H
-#define DOWNLOADCONFIGDIALOG_H
+#ifndef DOWNLOADDIALOG_H
+#define DOWNLOADDIALOG_H
 
 #include <QDialog>
-#include "ui_downloadconfigdialog.h"
 
 namespace Ui {
-class DownloadConfigDialog;
+class DownloadDialog;
 }
 
-class DownloadConfigDialog : public QDialog {
+class DownloadDialog : public QDialog {
   Q_OBJECT
 
 public:
-  explicit DownloadConfigDialog(QWidget *parent = nullptr);
-  ~DownloadConfigDialog();
+  explicit DownloadDialog(QWidget *parent = nullptr);
+  ~DownloadDialog();
 
   QString getExchange() const;
   QString getSymbol() const;
@@ -22,11 +21,15 @@ public:
   QDateTime getEndTime() const;
   QString getOutputPath() const;
 
+private slots:
+  void onBrowseButtonClicked();
+
 private:
   void initializeApplication(); // 整体初始化
+  QString getDataDirectory() const;
 
 private:
-  Ui::DownloadConfigDialog *ui;
+  Ui::DownloadDialog *ui;
 };
 
-#endif // DOWNLOADCONFIGDIALOG_H
+#endif // DOWNLOADDIALOG_H

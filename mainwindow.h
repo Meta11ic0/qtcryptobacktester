@@ -2,25 +2,19 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QProgressDialog>
-#include <QString>
-#include <QStringList>
 #include <QVector>
 
-// 前向声明
 class QChart;
 class QChartView;
 class QCandlestickSeries;
+class QScatterSeries;
+class QValueAxis;
+class QDateTimeAxis;
+class QSlider;
+class QProgressDialog;
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
-QT_END_NAMESPACE
-
-// 基础数据结构
 struct KLineData {
-  QString timestamp;
+  qint64 timestamp;
   double open;
   double high;
   double low;
@@ -28,80 +22,62 @@ struct KLineData {
   double volume;
 };
 
+enum class SignalType { Buy, Sell };
+
 struct TradeSignal {
-  QString timestamp;
-  QString type; // "BUY" or "SELL"
+  qint64 timestamp;
   double price;
+  SignalType type;
 };
 
-struct BacktestResult {
-  double initialCapital;
-  double finalCapital;
-  double totalReturn;
-  int totalTrades;
-  int winningTrades;
-  double winRate;
-  double maxDrawdown;
-  QVector<TradeSignal> trades;
-};
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class MainWindow;
+}
+QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
-  explicit MainWindow(QWidget* parent = nullptr);
+  MainWindow(QWidget* parent = nullptr);
   ~MainWindow();
 
 private slots:
-  // 数据管理槽函数 - 对应UI中的按钮
   void onDataFileSelected(int index); // dataFileComboBox选择变化
   void onDownloadDataClicked();       // downloadDataButton点击
-  //void onAddFileClicked();      // addFileButton点击
-
-  // 策略管理槽函数 - 对应UI中的按钮
-  void onStrategySelected(int index); // strategyComboBox选择变化
-  //void onCreateStrategyClicked();     // createStrategyButton点击
-  //void onEditStrategyClicked();       // editStrategyButton点击
-
-  // 回测执行槽函数 - 对应UI中的按钮
-  //void onStartBacktestClicked(); // startBacktestButton点击
+  void onAddFileClicked();            // addFileButton点击
+  void onScrollChanged(int value);
 
 private:
-  // 初始化函数 - 程序启动时需要执行
-  void initializeApplication(); // 整体初始化
-  void loadDataFiles();         // 加载数据文件列表到dataFileComboBox
-  void loadStrategies();        // 加载策略文件列表到strategyComboBox
-  void initializeChart();       // 初始化K线图表
+  //初始化函数
+  void initializeApplication();
+  void initializeDataFiles();
+  void initializeStrategies();
+  void initializeChart();
 
-  // 数据管理函数 - 处理CSV数据和文件操作
-  bool loadCSVData(const QString& filePath);           // 加载选定的CSV数据文件
-  QString getSelectedDataFile() const;                 // 获取当前选中的数据文件路径
-  void addDataFileToComboBox(const QString& filePath); // 添加数据文件到下拉框
-
-  // 策略管理函数 - 处理Python策略文件
-  QString getSelectedStrategy() const; // 获取当前选中的策略文件路径
-  bool createNewStrategy();            // 创建新的策略模板文件
-  bool editStrategyFile();             // 打开策略文件进行编辑
-
-  // 图表函数 - 处理K线图显示
-  void updateChart();                                    // 更新图表显示当前数据
-  void clearChart();                                     // 清空图表
-  void addTradeMarks(const QVector<TradeSignal>& marks); // 在图表上添加交易信号标记
-
-  // 回测引擎函数 - 核心回测逻辑
-  //BacktestResult runBacktest();                            // 执行回测并返回结果
-  //void updateResultsDisplay(const BacktestResult& result); // 更新结果显示区域
-
-  // 工具函数 - 辅助功能
-  bool validateInputs();                     // 验证用户输入参数有效性
+  //辅助信息展示
   void showError(const QString& message);    // 显示错误信息
-  void showProgress(const QString& message); // 显示信息
-  void clearProgress();
-  bool checkPythonEnvironment(); //检查python环境
-  QString getScriptPath(const QString& scriptName);
-  QString getDataDirectory();       // 获取数据目录
-  QString getStrategiesDirectory(); // 获取策略目录
-  int calculateEstimatedBars(const QDateTime& start, const QDateTime& end, const QString& timeframe);
+  void showProgress(const QString& message); // 显示进度信息
+  void clearProgress();                      // 清除进度显示
+
+  //获取相关文件
+  QString getDataDirectory();
+  QString getDataFilePath(const QString& file_path);
+  QString getStrategiesDirectory();
+  QString getStrategiesFilePath(const QString& file_path);
+
+  //图表展示相关
+  bool loadKLineData(const QString& file_path);
+  void buildChartBasic();
+  void setChartRange(int value);
+
+  //下载相关
+  void addDataFileToComboBox(const QString& filePath, bool need_copied = true);
+  bool checkPythonEnvironment();
+  int calculateEstimatedBars(const QDateTime& start,
+                             const QDateTime& end,
+                             const QString& timeframe); // 计算预估数据条数
   bool downloadDataChunk(const QString& exchange,
                          const QString& symbol,
                          const QString& timeframe,
@@ -117,25 +93,25 @@ private:
 
 private:
   Ui::MainWindow* ui;
+  QProgressDialog* progress_dialog_;
 
-  // 数据管理变量 - 存储数据文件相关信息
-  QStringList dataFilePaths;      // 所有数据文件的路径列表
-  QVector<KLineData> currentData; // 当前加载的K线数据
-  QString currentDataFile;        // 当前选中的数据文件路径
+  QChart* price_chart_;
+  QChartView* chart_view_;
+  QCandlestickSeries* candle_series_;
+  QScatterSeries* buy_series_;
+  QScatterSeries* sell_series_;
+  QDateTimeAxis* axis_x_;
+  QValueAxis* axis_y_;
+  QSlider* scroll_bar_;
 
-  // 策略管理变量 - 存储策略文件相关信息
-  QStringList strategyFiles;   // 所有策略文件的路径列表
-  QString currentStrategyFile; // 当前选中的策略文件路径
+  QVector<KLineData> current_kline_data_;
+  QVector<TradeSignal> signals_;
+  QStringList all_data_files_;
+  QString current_data_file_;
+  QStringList all_strategy_files_;
+  QString current_strategy_file_;
 
-  // 图表变量 - 图表组件指针
-  QChart* priceChart;               // K线图表对象
-  QChartView* chartView;            // 图表视图
-  QCandlestickSeries* candleSeries; // K线序列
-
-  QProgressDialog* progressDialog;
-  // 回测状态变量 - 跟踪回测过程状态
-  //bool backtestRunning;      // 回测是否正在进行中
-  //BacktestResult lastResult; // 上一次回测的结果
+  int visible_count_;
 };
 
 #endif // MAINWINDOW_H
